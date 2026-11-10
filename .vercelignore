@@ -1,0 +1,15 @@
+.git
+.env*
+!.env.example
+instance
+tests
+docs
+output
+.playwright-cli
+.requirements
+graphify-out
+.graphify_cache
+__pycache__
+.pytest_cache
+*.db
+*.pyc

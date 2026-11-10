@@ -1,0 +1,36 @@
+{
+  "_comment": "Operator-maintained intelligence. No production SPKI blocklist is bundled. Add verified SHA-256 SPKI hashes from authoritative incident records. Issuer-name watch rules are review hints, not definitive compromise detection.",
+  "blocked_spki_sha256": [],
+  "issuer_watch": [
+    {
+      "pattern": "emudhra",
+      "name": "eMudhra Global TLS Incident",
+      "severity": "critical",
+      "note": "October 2026: eight weak ECC intermediate keys were disclosed (six TLS, two code signing). eMudhra reported a faulty wrap/unwrap ceremony step and revoked the intermediates. An issuer-name match alone does not identify an affected key. Consult https://emudhra.com/en/post/certificate-security-incident and https://go.dev/blog/emudhra-incident and keep the system trust store current."
+    },
+    {
+      "pattern": "wosign|startcom",
+      "name": "WoSign / StartCom Distrusted CAs",
+      "severity": "critical",
+      "note": "WoSign and StartCom were distrusted across Google Chrome, Mozilla Firefox, Apple, and Microsoft due to backdated certificates, failure to disclose acquisition, and issuance of certificates without domain validation."
+    },
+    {
+      "pattern": "diginotar",
+      "name": "DigiNotar Compromised Root",
+      "severity": "critical",
+      "note": "DigiNotar was catastrophically breached in 2011, issuing hundreds of rogue fraudulent certificates including *.google.com used for state-sponsored man-in-the-middle surveillance before being permanently distrusted."
+    },
+    {
+      "pattern": "cnnic",
+      "name": "CNNIC Subordinate CA Incident",
+      "severity": "high",
+      "note": "CNNIC issued an intermediate certificate to MCS Holdings, which used it to issue unauthorized man-in-the-middle certificates for Google domains."
+    },
+    {
+      "pattern": "trustcor|darkmatter",
+      "name": "TrustCor Systems Distrust",
+      "severity": "high",
+      "note": "TrustCor Systems was distrusted by major browser vendors following investigations that revealed corporate and technical ties to spyware and surveillance operations."
+    }
+  ]
+}

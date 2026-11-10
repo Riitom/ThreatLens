@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ThreatLens: Intelligent Threat Detection & Trust Platform</title>
+  <meta name="description" content="Intelligent cybersecurity platform combining phishing detection, web security assessment, cryptographic certificate validation, and collaborative threat intelligence.">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="top">
+    <a class="wordmark" href="/" aria-label="ThreatLens home">
+      <svg width="28" height="28" viewBox="0 0 26 26" aria-hidden="true" focusable="false">
+        <circle cx="11" cy="11" r="7.5" fill="none" stroke="currentColor" stroke-width="2.4"/>
+        <path d="M16.6 16.6 23 23" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/>
+        <path d="M7.6 11.4 10 13.8 14.6 8.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>ThreatLens</span>
+    </a>
+    <nav aria-label="Navigation links">
+      <a href="#scanner">Scanner</a>
+      <a href="#feed-section">Threat Feed</a>
+      <a href="#crypto-lab">Crypto & Cert Lab</a>
+      <a href="#emudhra-incident">eMudhra Case Study</a>
+      <a href="#hardening-guide">Hardening Guide</a>
+      <a href="/api/health" target="_blank" rel="noopener">Health API</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- Scanner Section -->
+    <section id="scanner" class="intro" aria-labelledby="title">
+      <div class="intro-kicker"><span>WEB THREAT INTELLIGENCE</span><span id="service-status" class="service-status" role="status">Connecting to analysis server…</span></div>
+      <h1 id="title">Check a link before you trust it.</h1>
+      <p class="lede">One link. Four perspectives. Check for phishing, inspect website security, validate certificates, and compare community intelligence.</p>
+      <div class="engine-strip" aria-label="Analysis capabilities"><span>01 · Threat analysis</span><span>02 · Web security</span><span>03 · Certificate validation</span><span>04 · Community intelligence</span></div>
+
+      <form id="scan-form" novalidate>
+        <label for="url">Website link or host</label>
+        <div class="field">
+          <input id="url" name="url" type="text" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="2048" placeholder="https://example.com/login" aria-describedby="url-hint error">
+          <button type="submit" class="primary" id="scan-btn">Scan link</button>
+        </div>
+        <p id="url-hint" class="hint">We inspect the address remotely. Never paste a password, OTP, or private reset link. Results are risk indicators, not a guarantee of safety.</p>
+
+        <!-- Interactive Presets -->
+        <div class="presets-bar" aria-label="Quick test scenarios">
+          <span class="presets-label">Demonstration scenarios:</span>
+          <div class="presets-chips" id="presets-container">
+            <button type="button" class="chip" data-scenario="sbi_kyc_phish" title="Impersonates SBI with fake KYC threat & credential theft">🏦 SBI KYC Phish</button>
+            <button type="button" class="chip" data-scenario="recruitment_advance_fee" title="Fake employment portal demanding ₹2,500 registration deposit">💼 Fake Job Offer</button>
+            <button type="button" class="chip" data-scenario="emudhra_compromised_ca" title="Inspects intermediate CA affected by the eMudhra key generation incident">🔐 eMudhra Incident</button>
+            <button type="button" class="chip" data-scenario="weak_fermat_key" title="RSA-2048 key with close primes factorable via Fermat's method">🧮 Weak Fermat Key</button>
+            <button type="button" class="chip" data-scenario="hardened_bank" title="Clean reference baseline with A+ posture and TLS 1.3">🛡️ Hardened Bank</button>
+          </div>
+        </div>
+
+        <details class="advanced">
+          <summary>Options for site owners & authorized audits</summary>
+          <div class="advanced-body">
+            <label class="check"><input type="checkbox" id="authorized"> I own this site or have explicit permission to test it</label>
+            <label class="check"><input type="checkbox" id="deep"> Deep check for exposed files (.env, .git/HEAD, phpinfo.php, server-status)</label>
+            <p class="hint">Active exposure checks only run when authorisation is explicitly confirmed.</p>
+          </div>
+        </details>
+
+        <div id="progress" class="progress" role="status" hidden>
+          <span id="progress-text">Scanning targets. Validating certificates, headers, content and intelligence...</span>
+          <span class="bar" aria-hidden="true"></span>
+        </div>
+        <p id="error" class="error" role="alert" hidden></p>
+      </form>
+    </section>
+
+    <!-- Scan Results View -->
+    <section id="result" class="result" tabindex="-1" aria-label="Scan result" hidden></section>
+
+    <!-- Certificate & Cryptography Lab -->
+    <section id="crypto-lab" class="lab-section" aria-labelledby="crypto-lab-title">
+      <div class="section-head">
+        <h2 id="crypto-lab-title">Certificate & Cryptography Inspector</h2>
+        <p class="sub">Inspect a live TLS host or paste a public X.509 certificate. Check validity, hostname coverage, trust status, known key weaknesses, and CA watchlists. PEM uploads do not establish chain trust or a live TLS connection.</p>
+      </div>
+
+      <div class="lab-controls">
+        <div class="lab-input-group">
+          <label for="lab-host-input">Inspect a Live Host:</label>
+          <div class="field">
+            <input id="lab-host-input" type="text" placeholder="example.com or google.com:443" autocomplete="off" spellcheck="false">
+            <button type="button" id="lab-host-btn" class="quiet">Inspect Host</button>
+          </div>
+        </div>
+
+        <div class="lab-input-group">
+          <label for="lab-pem-input">Or Paste PEM Certificate / Chain:</label>
+          <textarea id="lab-pem-input" placeholder="-----BEGIN CERTIFICATE-----&#10;MIID...&#10;-----END CERTIFICATE-----" spellcheck="false"></textarea>
+          <div class="lab-actions">
+            <button type="button" id="lab-pem-btn" class="primary">Audit PEM Cryptography</button>
+            <button type="button" id="lab-load-sample-btn" class="quiet">Load Sample Fermat-Weak Cert</button>
+            <button type="button" id="lab-clear-btn" class="quiet">Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="lab-result" class="lab-result" role="region" aria-label="Certificate audit result" aria-live="polite" hidden></div>
+    </section>
+
+    <!-- Live Threat Feed Explorer -->
+    <section id="feed-section" class="feed-section" aria-labelledby="feed-title">
+      <div class="section-head flex-between">
+        <div>
+          <h2 id="feed-title">Collaborative Threat Intelligence Feed</h2>
+          <p class="sub">Community-reported indicators corroborated by at least three independent reporters. Reports decay over time; community agreement alone does not prove a site is malicious.</p>
+          <p id="storage-notice" class="hint" role="status" hidden></p>
+        </div>
+        <div class="feed-actions">
+          <a href="/api/feed/export?format=csv" class="btn-export" download="threatlens-feed.csv">Export CSV</a>
+          <a href="/api/feed/export?format=json" class="btn-export" target="_blank" rel="noopener">Export JSON</a>
+          <button type="button" id="feed-refresh-btn" class="quiet">Refresh</button>
+        </div>
+      </div>
+
+      <div class="feed-toolbar">
+        <div class="feed-filters" role="group" aria-label="Category filters">
+          <button type="button" class="filter-btn active" data-cat="all" aria-pressed="true">All</button>
+          <button type="button" class="filter-btn" data-cat="phishing">Phishing</button>
+          <button type="button" class="filter-btn" data-cat="payment_scam">Payment Scams</button>
+          <button type="button" class="filter-btn" data-cat="fake_recruitment">Fake Recruitment</button>
+          <button type="button" class="filter-btn" data-cat="impersonation">Impersonation</button>
+          <button type="button" class="filter-btn" data-cat="malware">Malware</button>
+        </div>
+        <input type="text" id="feed-search" aria-label="Filter threat feed by domain" placeholder="Filter by domain..." class="feed-search-input">
+      </div>
+
+      <div id="feed-table-container" class="table-wrap">
+        <p class="empty" id="feed-loading">Loading latest intelligence feed...</p>
+      </div>
+    </section>
+
+    <!-- eMudhra Incident Case Study -->
+    <section id="emudhra-incident" class="case-study-section" aria-labelledby="emudhra-title">
+      <div class="section-head">
+        <h2 id="emudhra-title">eMudhra Incident: Protecting the Web's Trust Infrastructure</h2>
+        <p class="sub">A real-world case study in Certificate Authority vulnerabilities, cryptographic key generation failures, and the importance of continuous PKI monitoring.</p>
+      </div>
+
+      <div class="case-grid">
+        <div class="case-card">
+          <div class="card-icon">⚠️</div>
+          <h3>The Root Cause</h3>
+          <p>In October 2026, <strong>eight eMudhra intermediate CA keys</strong> were found to be trivially weak: six for TLS and two for code signing. eMudhra traced the weak keys to a wrap/unwrap step in an April 2025 key ceremony. This involved ECC keys, not the RSA close-prime weakness in the separate Fermat demo.</p>
+        </div>
+
+        <div class="case-card">
+          <div class="card-icon">⚡</div>
+          <h3>The Impersonation Risk</h3>
+          <p>When an intermediate CA's private key is compromised or predictable, malicious actors can forge cryptographically valid TLS certificates for <em>any domain on earth</em> (including banks, universities, and government portals) without the domain owner's knowledge.</p>
+        </div>
+
+        <div class="case-card">
+          <div class="card-icon">🛡️</div>
+          <h3>Root Store Response</h3>
+          <p>Browser and language root programs blocked affected trust paths. eMudhra reported revoking all eight intermediates on 18 October 2026 and stated that they had issued no end-entity certificates. Keep trust stores and incident intelligence current.</p>
+        </div>
+
+        <div class="case-card">
+          <div class="card-icon">🔍</div>
+          <h3>How ThreatLens Detects It</h3>
+          <p>ThreatLens inspects available chain certificates, compares public-key hashes to an operator-maintained blocklist, flags watched CA names, counts embedded SCTs, and checks RSA structure. An issuer-name match is a warning for review, not proof of a compromised key. Counting SCTs does not cryptographically verify them.</p>
+        </div>
+      </div>
+      <p class="case-sources">Sources: <a href="https://emudhra.com/en/post/certificate-security-incident" target="_blank" rel="noopener noreferrer">eMudhra incident statement</a> · <a href="https://go.dev/blog/emudhra-incident" target="_blank" rel="noopener noreferrer">Go Security Team response</a></p>
+    </section>
+
+    <!-- Web Security Hardening Guide -->
+    <section id="hardening-guide" class="guide-section" aria-labelledby="guide-title">
+      <div class="section-head">
+        <h2 id="guide-title">Web Security Posture: How to Achieve an A+ Grade</h2>
+        <p class="sub">Hardening guidelines for site administrators. The posture grade evaluates application-level resilience against clickjacking, script injection, downgrade attacks, and secret leakage.</p>
+      </div>
+
+      <div class="guide-grid">
+        <div class="guide-card">
+          <h3>Nginx Configuration</h3>
+          <pre><code># Enable HSTS (1 year with subdomains and preload)
+add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
+
+# Modern Content Security Policy
+add_header Content-Security-Policy "default-src 'self'; frame-ancestors 'none'; base-uri 'none'; object-src 'none';" always;
+
+# Anti-Clickjacking & Sniffing
+add_header X-Frame-Options "DENY" always;
+add_header X-Content-Type-Options "nosniff" always;
+add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+add_header Permissions-Policy "geolocation=(), microphone=(), camera=()" always;</code></pre>
+        </div>
+
+        <div class="guide-card">
+          <h3>Apache Configuration (.htaccess / httpd.conf)</h3>
+          <pre><code>&lt;IfModule mod_headers.c&gt;
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+  Header always set Content-Security-Policy "default-src 'self'; frame-ancestors 'none';"
+  Header always set X-Frame-Options "DENY"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), camera=()"
+&lt;/IfModule&gt;</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about" aria-labelledby="about-title">
+      <h2 id="about-title">The Four Pillars of ThreatLens</h2>
+      <div class="about-grid">
+        <div>
+          <h3>1. Address & Brand Signals</h3>
+          <p>Typosquatting detection, Levenshtein distance, homoglyph lookalikes (Cyrillic, Greek), Punycode / IDN spoofing, suspicious disposable TLDs, and brand-in-subdomain deceptive nesting.</p>
+        </div>
+        <div>
+          <h3>2. Content & Phishing Behavior</h3>
+          <p>Harvesting inputs for passwords, OTPs, MPIN, CVV, and PAN/Aadhaar; cross-domain form submissions; urgency and account suspension threats; recruitment fees; and obfuscated JavaScript.</p>
+        </div>
+        <div>
+          <h3>3. Certificate & Cryptographic Health</h3>
+          <p>Full X.509 chain audit, Fermat factorization for close primes, ROCA fingerprinting, trial division, batch GCD shared-prime checks, eMudhra distrust monitoring, and Certificate Transparency (SCTs).</p>
+        </div>
+        <div>
+          <h3>4. Collaborative Intelligence</h3>
+          <p>Privacy-preserving salted HMAC reporting, time-decayed weighted reputation, community confirm/dispute voting, brand safeguards, and exportable threat feeds.</p>
+        </div>
+      </div>
+      <p class="fine">Threat verdict and site hardening grade are decoupled by design: an attacker can deploy flawless TLS on a scam site, while a legitimate bank portal may have missing HTTP security headers.</p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>ThreatLens is an explainable security assessment tool. A low score is not a guarantee of safety. Community URLs omit query strings and reporter addresses are hashed. Created by <a href="https://github.com/Riitom" target="_blank" rel="noopener noreferrer">Riitom Modak</a> · Version 1.0.1.</p>
+  </footer>
+
+  <script src="/static/app.js" defer></script>
+</body>
+</html>

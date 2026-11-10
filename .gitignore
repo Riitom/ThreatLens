@@ -1,0 +1,37 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Pytest cache
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# IDE & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+.vercel
+.env*
+!.env.example
+instance/
+*.db
+*.db-shm
+*.db-wal
+output/
+.playwright-cli/
+.requirements/
+graphify-out/
+.graphify_cache/
+node_modules/
+dist/
+*.egg-info/
